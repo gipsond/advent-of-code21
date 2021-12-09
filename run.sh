@@ -1,0 +1,1 @@
+cabal new-run --ghc-options=-fno-ignore-asserts
