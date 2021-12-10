@@ -4,18 +4,26 @@ import Control.Exception (assert)
 import Day1
 import Day2
 
+data Part
+  = NotStarted
+  | Testing (String -> Int)
+  | Solved (String -> Int) Int
+
+solveDay :: String -> Part -> Part -> IO ()
+solveDay name part1 part2 = do
+  input <- readFile $ "data/" ++ name
+  putStrLn $ "Day " ++ name
+  solvePart input part1
+  solvePart input part2
+
+solvePart :: String -> Part -> IO ()
+solvePart input NotStarted = return ()
+solvePart input (Testing solvePart) = print . solvePart $ input
+solvePart input (Solved solvePart expected) =
+  let answer = solvePart input
+   in assert (expected == answer) (print answer)
+
 main :: IO ()
 main = do
-  day1input <- readFile "data/1"
-  day2input <- readFile "data/2"
-  let day1part1Soln = Day1.part1 day1input
-      day1part2Soln = Day1.part2 day1input
-      day2part1Soln = Day2.part1 day2input
-      day2part2Soln = Day2.part2 day2input
-  putStrLn "Day 1"
-  assert (day1part1Soln == 1451) (print day1part1Soln)
-  assert (day1part2Soln == 1395) (print day1part2Soln)
-  putStrLn "Day 2"
-  assert (day2part1Soln == 1936494)    (print day2part1Soln)
-  assert (day2part2Soln == 1997106066) (print day2part2Soln)
-  putStrLn ""
+  solveDay "1" (Solved Day1.part1 1451)    (Solved Day1.part2 1395)
+  solveDay "2" (Solved Day2.part1 1936494) (Solved Day2.part2 1997106066)

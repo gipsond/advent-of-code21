@@ -66,5 +66,3 @@ part2 s =
     (finalH, finalD, _) = foldl updateState (0, 0, 0) (Day2.parse s)
   in
     finalH * finalD
-
--- Day 3
