@@ -3,6 +3,7 @@ module Day1
     part2,
   )
 where
+import Parsing (parseLines)
 
 -- Day 1
 
@@ -16,7 +17,7 @@ windows [head] = []
 windows l = zip3 l (tail l) (tail (tail l))
 
 parse :: String -> [Int]
-parse = map read . lines
+parse = parseLines read
 
 countIncreases :: [Int] -> Int
 countIncreases = length . filter (uncurry (<)) . pairs
