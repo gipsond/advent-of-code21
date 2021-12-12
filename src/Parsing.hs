@@ -2,6 +2,7 @@ module Parsing
   ( Parser,
     parseLines,
     parseLinesWith,
+    parseWith
   )
 where
 

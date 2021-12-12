@@ -4,6 +4,7 @@ import Control.Exception (assert)
 import Day1
 import Day2
 import Day3
+import Day4
 
 data Part
   = NotStarted
@@ -29,3 +30,5 @@ main = do
   solveDay "1" (Solved Day1.part1 1451)    (Solved Day1.part2 1395)
   solveDay "2" (Solved Day2.part1 1936494) (Solved Day2.part2 1997106066)
   solveDay "3" (Solved Day3.part1 3309596) (Solved Day3.part2 2981085)
+  solveDay "4" (Solved Day4.part1 25410)   (Solved Day4.part2 2730)
+  

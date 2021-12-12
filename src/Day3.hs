@@ -7,6 +7,7 @@ import Text.Parsec (char, many1, (<|>))
 import Parsing (Parser, parseLinesWith)
 import Data.Foldable (maximumBy, minimumBy)
 import Data.Ord (comparing)
+import Utils (column)
 
 -- Parsing
 
@@ -44,9 +45,6 @@ gammaRateBit l = maximumBy (comparing . occurrences $ l) [Zero, One]
 
 epsilonRateBit :: [Bit] -> Bit
 epsilonRateBit l = minimumBy (comparing . occurrences $ l) [Zero, One]
-
-column :: Int -> [[a]] -> [a]
-column i = map (!! i)
 
 constructColumnWise :: ([Bit] -> Bit) -> [BinaryNumber] -> BinaryNumber
 constructColumnWise f l = map (f . flip column l) [0..11]
