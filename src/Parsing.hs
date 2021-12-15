@@ -1,12 +1,13 @@
 module Parsing
-  ( Parser,
+  ( comma,
+    Parser,
     parseLines,
     parseLinesWith,
-    parseWith
+    parseWith,
   )
 where
 
-import Text.Parsec (Parsec, parse)
+import Text.Parsec (Parsec, parse, char)
 
 type Parser = Parsec String ()
 
@@ -22,3 +23,6 @@ parseLines parseLine = map parseLine . lines
 
 parseLinesWith :: Parser a -> String -> [a]
 parseLinesWith = parseLines . parseWith
+
+comma :: Parser Char
+comma = char ','
