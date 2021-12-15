@@ -5,10 +5,11 @@ module Parsing
     parseLinesWith,
     parseWith,
     int,
+    commaSeparatedIntList,
   )
 where
 
-import Text.Parsec (Parsec, parse, char, digit, many1)
+import Text.Parsec (Parsec, parse, char, digit, many1, sepBy1, endOfLine, eof)
 import Data.Functor ((<&>))
 
 type Parser = Parsec String ()
@@ -31,3 +32,6 @@ comma = char ','
 
 int :: Parser Int
 int = many1 digit <&> read
+
+commaSeparatedIntList :: Parser [Int]
+commaSeparatedIntList = sepBy1 int comma <* endOfLine

@@ -61,6 +61,7 @@ library
     Day4
     Day5
     Day6
+    Day7
     Parsing
     Utils
 
@@ -92,6 +93,7 @@ executable advent-of-code21
     Day4
     Day5
     Day6
+    Day7
     Parsing
     Utils
 
