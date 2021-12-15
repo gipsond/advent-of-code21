@@ -8,6 +8,7 @@ import Day4
 import Day5
 import Day6
 import Day7
+import Day8
 
 data Part
   = NotStarted
@@ -39,4 +40,5 @@ main = do
   solveDay "5" (SolvedLong Day5.part1 5197) (SolvedLong Day5.part2 18605)
   solveDay "6" (Solved Day6.part1 386755)  (Solved Day6.part2 1732731810807)
   solveDay "7" (Solved Day7.part1 331067)  (Solved Day7.part2 92881128)
+  solveDay "8" (Solved Day8.part1 301)     (Solved Day8.part2 908067)
   
