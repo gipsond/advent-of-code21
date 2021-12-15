@@ -60,6 +60,7 @@ library
     Day3
     Day4
     Day5
+    Day6
     Parsing
     Utils
 
@@ -69,7 +70,8 @@ library
   -- Other library packages from which modules are imported.
   build-depends:
     base >=4.12 && <4.13,
-    parsec ^>=3.1.0.0
+    parsec ^>=3.1.0.0,
+    containers ^>=0.6.5.1
 
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -89,6 +91,7 @@ executable advent-of-code21
     Day3
     Day4
     Day5
+    Day6
     Parsing
     Utils
 
@@ -98,7 +101,8 @@ executable advent-of-code21
   -- Other library packages from which modules are imported.
   build-depends:
     base >=4.12 && <4.13,
-    parsec ^>=3.1.0.0
+    parsec ^>=3.1.0.0,
+    containers ^>=0.6.5.1
 
   -- Directories containing source files.
   hs-source-dirs:      src

@@ -6,7 +6,7 @@ where
 
 import Data.List (intersect, nub)
 import Debug.Trace
-import Parsing (Parser, comma, parseLinesWith)
+import Parsing (Parser, comma, parseLinesWith, int)
 import Text.Parsec (char, digit, many1, string)
 import Control.Monad (liftM2)
 
@@ -18,10 +18,10 @@ type LineSegment = (Point, Point)
 
 point :: Parser Point
 point = do
-  x <- many1 digit
+  x <- int
   comma
-  y <- many1 digit
-  return (read x, read y)
+  y <- int
+  return (x, y)
 
 lineSegment :: Parser LineSegment
 lineSegment = do

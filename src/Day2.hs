@@ -6,7 +6,7 @@ where
 
 import Control.Monad (void)
 import Data.Functor.Identity (Identity)
-import Parsing (Parser, parseLinesWith)
+import Parsing (Parser, parseLinesWith, int)
 import Text.Parsec (digit, many1, space, string, (<|>))
 
 -- Parsing
@@ -27,8 +27,8 @@ command :: Parser Command
 command = do
   cd <- commandDirection
   void $ many1 space
-  i <- many1 digit
-  return . cd . read $ i
+  i <- int
+  return . cd $ i
 
 parse :: String -> [Command]
 parse = parseLinesWith command

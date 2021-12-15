@@ -4,10 +4,12 @@ module Parsing
     parseLines,
     parseLinesWith,
     parseWith,
+    int,
   )
 where
 
-import Text.Parsec (Parsec, parse, char)
+import Text.Parsec (Parsec, parse, char, digit, many1)
+import Data.Functor ((<&>))
 
 type Parser = Parsec String ()
 
@@ -26,3 +28,6 @@ parseLinesWith = parseLines . parseWith
 
 comma :: Parser Char
 comma = char ','
+
+int :: Parser Int
+int = many1 digit <&> read

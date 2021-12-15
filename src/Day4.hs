@@ -8,7 +8,7 @@ import Control.Monad (liftM2)
 import Data.Foldable (find)
 import Data.List (delete, (\\))
 import Debug.Trace
-import Parsing (Parser, parseWith, comma)
+import Parsing (Parser, parseWith, comma, int)
 import Text.Parsec (char, digit, endOfLine, eof, many, many1, parsecMap, sepBy1, sepEndBy1, space)
 import Utils (column)
 
@@ -29,7 +29,7 @@ type BingoRow = [BingoSpace]
 type BingoBoard = [BingoRow]
 
 bingoNumber :: Parser BingoNumber
-bingoNumber = parsecMap read $ many (char ' ') >> many1 digit
+bingoNumber = many (char ' ') >> int
 
 bingoDraws :: Parser BingoDraws
 bingoDraws = (bingoNumber `sepBy1` comma) <* endOfLine
