@@ -20,15 +20,6 @@ parse = parseWith $ commaSeparatedIntList <* eof
 
 -- Optimal constant to minimize mean absolute deviation is the median.
 -- But a simple search is fast enough.
---
--- median :: [Int] -> Int
--- median l =
---   let sl = sort l
---       len = length sl
---       middleIndex = len `div` 2
---    in if even len
---         then ((sl !! middleIndex) + (sl !! (middleIndex + 1))) `div` 2
---         else sl !! middleIndex
 
 type CostFunction = (CrabPosition -> CrabPosition -> Int)
 
