@@ -1,6 +1,7 @@
 module Parsing
   ( comma,
     Parser,
+    parseDigitGrid,
     parseLines,
     parseLinesWith,
     parseWith,
@@ -44,3 +45,12 @@ sepTry p sep = sepTry1 p sep <|> pure []
 
 sepTry1 :: Parser a -> Parser b -> Parser [a]
 sepTry1 p sep = liftA2 (:) p (many (try $ sep *> p))
+
+oneDigitInt :: Parser Int
+oneDigitInt = digit <&> (read . pure)
+
+digitRow :: Parser [Int]
+digitRow = many1 oneDigitInt
+
+parseDigitGrid :: String -> [[Int]]
+parseDigitGrid = parseLinesWith digitRow

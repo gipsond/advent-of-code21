@@ -11,22 +11,17 @@ import Data.Maybe (catMaybes)
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Debug.Trace (traceShow)
-import Parsing (Parser, parseLinesWith)
+import Parsing (parseDigitGrid)
 import Text.Parsec (digit)
 import Text.Parsec.Combinator (many1)
+import Utils ( xMax, yMax, neighbors, at )
 
 -- Parsing
 
 type Heightmap = [[Height]]
 
-height :: Parser Height
-height = digit <&> (read . pure)
-
-heightmapRow :: Parser [Height]
-heightmapRow = many1 height
-
 parse :: String -> Heightmap
-parse = parseLinesWith heightmapRow
+parse = parseDigitGrid
 
 -- Part 1
 
@@ -36,24 +31,6 @@ type RiskLevel = Int
 
 riskLevel :: Height -> RiskLevel
 riskLevel = (+) 1
-
-xMax :: Heightmap -> Int
-xMax = flip (-) 1 . length . head
-
-yMax :: Heightmap -> Int
-yMax = flip (-) 1 . length
-
-neighbors :: Heightmap -> Int -> Int -> [(Int, Int)]
-neighbors hm x y =
-  catMaybes
-    [ if 0 < x then Just (x - 1, y) else Nothing,
-      if x < xMax hm then Just (x + 1, y) else Nothing,
-      if 0 < y then Just (x, y - 1) else Nothing,
-      if y < yMax hm then Just (x, y + 1) else Nothing
-    ]
-
-at :: Heightmap -> Int -> Int -> Height
-at hm x y = hm !! y !! x
 
 isLowPoint :: Heightmap -> Int -> Int -> Bool
 isLowPoint hm x y = all (\(nx, ny) -> at hm nx ny > at hm x y) $ neighbors hm x y
