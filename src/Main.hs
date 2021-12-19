@@ -13,11 +13,13 @@ import Day9
 import Day10
 import Day11
 import Day12
+import Day13
 
 data Part
   = NotStarted
   | Testing (String -> Int)
   | Solved  (String -> Int) Int
+  | SolvedStringAnswer  (String -> String)
   | SolvedLong (String -> Int) Int
 
 solveDay :: String -> Part -> Part -> IO ()
@@ -31,6 +33,7 @@ solveDay name part1 part2 = do
 solvePart :: String -> Part -> IO ()
 solvePart input NotStarted = return ()
 solvePart input (SolvedLong _ _) = putStrLn "Skipping (takes too long)"
+solvePart input (SolvedStringAnswer solvePart) = putStrLn . solvePart $ input
 solvePart input (Testing solvePart) = print . solvePart $ input
 solvePart input (Solved solvePart expected) =
   let answer = solvePart input
@@ -50,3 +53,4 @@ main = do
   solveDay "10" (Solved Day10.part1 345441) (Solved Day10.part2 3235371166)
   solveDay "11" (Solved Day11.part1 1603)   (Solved Day11.part2 222)
   solveDay "12" (Solved Day12.part1 4495)   (Solved Day12.part2 131254)
+  solveDay "13" (Solved Day13.part1 747)    (SolvedStringAnswer Day13.part2)
