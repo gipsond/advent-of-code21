@@ -12,6 +12,7 @@ import Day8
 import Day9
 import Day10
 import Day11
+import Day12
 
 data Part
   = NotStarted
@@ -25,6 +26,7 @@ solveDay name part1 part2 = do
   putStrLn $ "Day " ++ name
   solvePart input part1
   solvePart input part2
+  putStrLn ""
 
 solvePart :: String -> Part -> IO ()
 solvePart input NotStarted = return ()
@@ -47,4 +49,4 @@ main = do
   solveDay "9"  (Solved Day9.part1 494)     (Solved Day9.part2 1048128)
   solveDay "10" (Solved Day10.part1 345441) (Solved Day10.part2 3235371166)
   solveDay "11" (Solved Day11.part1 1603)   (Solved Day11.part2 222)
-  
+  solveDay "12" (Solved Day12.part1 4495)   (Solved Day12.part2 131254)
