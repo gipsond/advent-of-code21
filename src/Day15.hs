@@ -5,19 +5,19 @@ module Day15
 where
 
 import Data.Bifunctor (first)
-import Data.Foldable (minimumBy, Foldable (foldl'))
+import Data.Foldable (Foldable (foldl'), minimumBy)
+import Data.Heap (Entry (payload, priority), Heap)
+import qualified Data.Heap as Heap
 import Data.List (delete)
 import Data.Map (Map, (!), (!?))
 import qualified Data.Map as Map
-import Data.Heap (Heap, Entry (payload, priority))
-import qualified Data.Heap as Heap
+import Data.Maybe (fromJust)
 import Data.Ord (comparing)
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Debug.Trace (traceShow)
 import Parsing (parseDigitGrid)
 import Utils (at, neighbors, xMax, yMax)
-import Data.Maybe (fromJust)
 
 -- Parsing
 
@@ -45,47 +45,47 @@ findSafestPath rm =
       | null q = constructPath prev [(xMax rm, yMax rm)]
       | otherwise =
         let (e, q') = fromJust . Heap.uncons $ q
-            Heap.Entry { priority=priority, payload=currentP@(x, y) } = e
+            Heap.Entry {priority = priority, payload = currentP@(x, y)} = e
             currentRisk = dist ! currentP
             (dist', prev', q'') =
-              if priority /= currentRisk then (dist, prev, q')
-              else
-              foldl'
-                ( \(d, p, q) n@(nx, ny) ->
-                    let totalRisk = currentRisk + at rm nx ny
-                      in case d !? n of
-                          Just risk ->
-                            if totalRisk < risk
-                              then (Map.insert n totalRisk d, Map.insert n currentP p, Heap.insert (Heap.Entry totalRisk n) q)
-                              else (d, p, q)
-                          Nothing -> (Map.insert n totalRisk d, Map.insert n currentP p, Heap.insert (Heap.Entry totalRisk n) q)
-                )
-                (dist, prev, q')
-                (neighbors rm x y)
-             in findSafestPath' q'' dist' prev'
-
-increaseRisk :: RiskLevel -> RiskLevel
-increaseRisk 9 = 1
-increaseRisk i = i + 1
+              if priority /= currentRisk
+                then (dist, prev, q')
+                else
+                  foldl'
+                    ( \(d, p, q) n@(nx, ny) ->
+                        let totalRisk = currentRisk + at rm nx ny
+                         in case d !? n of
+                              Just risk ->
+                                if totalRisk < risk
+                                  then (Map.insert n totalRisk d, Map.insert n currentP p, Heap.insert (Heap.Entry totalRisk n) q)
+                                  else (d, p, q)
+                              Nothing -> (Map.insert n totalRisk d, Map.insert n currentP p, Heap.insert (Heap.Entry totalRisk n) q)
+                    )
+                    (dist, prev, q')
+                    (neighbors rm x y)
+         in findSafestPath' q'' dist' prev'
 
 totalRisk :: RiskMap -> [Point] -> Int
 totalRisk rm = sum . map (uncurry (at rm))
 
+totalRiskOfShortestPath :: RiskMap -> Int
+totalRiskOfShortestPath rm = totalRisk rm . tail . findSafestPath $ rm
+
 part1 :: String -> Int
-part1 s = let
-  rm = parse s
-  in totalRisk rm . tail . findSafestPath $ rm
+part1 = totalRiskOfShortestPath . parse
 
 -- Part 2
 
 fullMap :: RiskMap -> RiskMap
-fullMap = expandVertical .  map expandHorizontal
-  where expandHorizontal :: [RiskLevel] -> [RiskLevel]
-        expandHorizontal = concat . take 5 . iterate (map increaseRisk)
-        expandVertical :: RiskMap -> RiskMap
-        expandVertical = concat . take 5 . iterate (map (map increaseRisk))
+fullMap = expandVertical . map expandHorizontal
+  where
+    expandHorizontal :: [RiskLevel] -> [RiskLevel]
+    expandHorizontal = concat . take 5 . iterate (map increaseRisk)
+    expandVertical :: RiskMap -> RiskMap
+    expandVertical = concat . take 5 . iterate (map (map increaseRisk))
+    increaseRisk :: RiskLevel -> RiskLevel
+    increaseRisk 9 = 1
+    increaseRisk i = i + 1
 
 part2 :: String -> Int
-part2 s = let
-  rm = fullMap . parse $ s
-  in totalRisk rm . tail . findSafestPath $ rm
+part2 = totalRiskOfShortestPath . fullMap . parse
