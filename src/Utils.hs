@@ -5,10 +5,15 @@ module Utils
     neighbors,
     eightDNeighbors,
     at,
+    pairs,
   )
 where
 
 import Data.Maybe (catMaybes)
+
+pairs :: [a] -> [(a, a)]
+pairs [] = []
+pairs l = zip l (tail l)
 
 column :: Int -> [[a]] -> [a]
 column i = map (!! i)

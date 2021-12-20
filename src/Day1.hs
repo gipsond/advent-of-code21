@@ -4,12 +4,9 @@ module Day1
   )
 where
 import Parsing (parseLines)
+import Utils (pairs)
 
 -- Day 1
-
-pairs :: [a] -> [(a, a)]
-pairs [] = []
-pairs l = zip l (tail l)
 
 windows :: [a] -> [(a, a, a)]
 windows [] = []

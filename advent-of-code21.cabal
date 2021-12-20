@@ -68,6 +68,8 @@ library
     Day11
     Day12
     Day13
+    Day14
+    Day15
     Parsing
     Utils
 
@@ -78,7 +80,8 @@ library
   build-depends:
     base >=4.12 && <4.13,
     parsec ^>=3.1.0.0,
-    containers ^>=0.6.5.1
+    containers ^>=0.6.5.1,
+    heaps ^>=0.4
 
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -106,6 +109,8 @@ executable advent-of-code21
     Day11
     Day12
     Day13
+    Day14
+    Day15
     Parsing
     Utils
 
@@ -116,7 +121,8 @@ executable advent-of-code21
   build-depends:
     base >=4.12 && <4.13,
     parsec ^>=3.1.0.0,
-    containers ^>=0.6.5.1
+    containers ^>=0.6.5.1,
+    heaps ^>=0.4
 
   -- Directories containing source files.
   hs-source-dirs:      src
