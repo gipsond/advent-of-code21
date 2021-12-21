@@ -9,12 +9,15 @@ module Parsing
     commaSeparatedIntList,
     sepTry,
     sepTry1,
+    binaryNumber,
+    bit
   )
 where
 
 import Text.Parsec (Parsec, parse, char, digit, many1, sepBy1, endOfLine, eof, try, many, (<|>))
 import Data.Functor ((<&>))
 import Control.Applicative (liftA2)
+import Utils (Bit (..), BinaryNumber)
 
 type Parser = Parsec String ()
 
@@ -54,3 +57,10 @@ digitRow = many1 oneDigitInt
 
 parseDigitGrid :: String -> [[Int]]
 parseDigitGrid = parseLinesWith digitRow
+
+bit :: Parser Bit
+bit = (char '0' >> return Zero)
+  <|> (char '1' >> return One)
+
+binaryNumber :: Parser BinaryNumber
+binaryNumber = many1 bit

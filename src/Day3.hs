@@ -4,38 +4,17 @@ import Control.Monad (liftM2)
 import Debug.Trace
 import Numeric (readInt)
 import Text.Parsec (char, many1, (<|>))
-import Parsing (Parser, parseLinesWith)
+import Parsing (Parser, parseLinesWith, binaryNumber)
 import Data.Foldable (maximumBy, minimumBy)
 import Data.Ord (comparing)
-import Utils (column)
+import Utils (column, binValue, BinaryNumber, Bit (..))
 
 -- Parsing
-
-type BinaryNumber = [Bit]
-
-data Bit
-  = Zero
-  | One
-  deriving (Show, Eq)
-
-bit :: Parser Bit
-bit = (char '0' >> return Zero)
-  <|> (char '1' >> return One)
-
-binaryNumber :: Parser BinaryNumber
-binaryNumber = many1 bit
 
 parse :: String -> [BinaryNumber]
 parse = parseLinesWith binaryNumber
 
 -- Part 1
-
-value :: Bit -> Int
-value Zero = 0
-value One  = 1
-
-toInt :: BinaryNumber -> Int
-toInt = foldl (\acc b -> 2 * acc + value b) 0
 
 occurrences :: Eq a => [a] -> a -> Int
 occurrences l v = length . filter (== v) $ l
@@ -63,7 +42,7 @@ part1 = multiplyRatings gammaRate epsilonRate . parse
 type Rating = [BinaryNumber] -> BinaryNumber
 
 multiplyRatings :: Rating -> Rating -> [BinaryNumber] -> Int
-multiplyRatings r1 r2 = liftM2 (*) (toInt . r1) (toInt . r2)
+multiplyRatings r1 r2 = liftM2 (*) (binValue . r1) (binValue . r2)
 
 type BitCriteria = [Bit] -> Bit
 

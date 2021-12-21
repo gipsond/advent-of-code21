@@ -6,14 +6,38 @@ module Utils
     eightDNeighbors,
     at,
     pairs,
+    Bit (..),
+    BinaryNumber (..),
+    bitValue,
+    binValue,
   )
 where
 
 import Data.Maybe (catMaybes)
 
+-- General utilities
+
 pairs :: [a] -> [(a, a)]
 pairs [] = []
 pairs l = zip l (tail l)
+
+-- Bit utilities
+
+type BinaryNumber = [Bit]
+
+data Bit
+  = Zero
+  | One
+  deriving (Show, Eq)
+
+bitValue :: Bit -> Int
+bitValue Zero = 0
+bitValue One  = 1
+
+binValue :: BinaryNumber -> Int
+binValue = foldl (\acc b -> 2 * acc + bitValue b) 0
+
+-- 2D List matrix utilities
 
 column :: Int -> [[a]] -> [a]
 column i = map (!! i)
