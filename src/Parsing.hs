@@ -38,7 +38,8 @@ comma :: Parser Char
 comma = char ','
 
 int :: Parser Int
-int = many1 digit <&> read
+int = (char '-' >> negate . read <$> many1 digit)
+                       <|> (read <$> many1 digit)
 
 commaSeparatedIntList :: Parser [Int]
 commaSeparatedIntList = sepBy1 int comma <* endOfLine
