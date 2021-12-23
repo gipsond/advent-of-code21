@@ -10,6 +10,7 @@ module Utils
     BinaryNumber (..),
     bitValue,
     binValue,
+    combos
   )
 where
 
@@ -20,6 +21,9 @@ import Data.Maybe (catMaybes)
 pairs :: [a] -> [(a, a)]
 pairs [] = []
 pairs l = zip l (tail l)
+
+combos :: Eq a => [a] -> [(a, a)]
+combos l = [(a, b) | a <- l, b <- l, a /= b]
 
 -- Bit utilities
 

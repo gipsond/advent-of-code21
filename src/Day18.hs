@@ -9,6 +9,7 @@ import Debug.Trace (traceShow)
 import Parsing (Parser, int, parseLinesWith)
 import Text.Parsec (char, (<|>))
 import Data.Complex ()
+import Utils (combos)
 
 -- Parsing
 
@@ -124,9 +125,6 @@ part1 :: String -> Int
 part1 = magnitude . foldl1 add . parse
 
 -- Part 2
-
-combos :: Eq a => [a] -> [(a, a)]
-combos l = [(a, b) | a <- l, b <- l, a /= b]
 
 part2 :: String -> Int
 part2 = maximum . map (magnitude . uncurry add) . combos . parse
